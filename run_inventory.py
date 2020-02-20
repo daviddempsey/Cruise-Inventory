@@ -32,15 +32,13 @@ def run_inventory(cruise):
         print(datetime.now().strftime('%Y-%m-%dT%H:%M:%S: ') +
               'Running inventory on ' + cruise + '\n')
     ship_abbreviation = get_ship_abbreviation(cruise.upper())
-    # ship = ships[ship_abbreviation]
-    # checks to see if tar directory already exists
-    #exists = os.path.isdir(datadir_local + '/' + ship + '/' + cruise + '.tar')
-    exists = os.path.isdir(datadir_local + '/' + cruise + '.tar')
+    datadir = path_identifier[ship_abbreviation]
+    exists = os.path.isdir(datadir + '/' + cruise + '.tar')
 
     if exists and '-o' not in args:
-        logging.info(datadir_local + '/' + cruise + '.tar exists')
+        logging.info(datadir + '/' + cruise + '.tar exists')
     else:
-        logging.info('Creating ' + datadir_local + '/' + cruise + '.tar')
+        logging.info('Creating ' + datadir + '/' + cruise + '.tar')
         # if '-u' in args:
         #     # extracts .tar.bz2 file into a cruise directory
         #     output = extract_tar_bz2(cruise)
@@ -48,21 +46,20 @@ def run_inventory(cruise):
         #         logging.error('Could not untar cruise')
         #         raise RuntimeError
         # os.chdir('{}/{}/{}'.format(datadir_local, ship, cruise))
-        os.chdir('{}/{}'.format(datadir_local, cruise))
+        os.chdir('{}/{}'.format(datadir, cruise))
         os.system('chmod -R +rw ./*')  # changes permissions
         os.system('chgrp -R gdc ./*')
-        # os.chdir('{}/{}'.format(datadir_local,ship))  # moves into ship dir
-        os.chdir('{}'.format(datadir_local))  # moves into ship dir
+        os.chdir('{}'.format(datadir))  # moves into ship dir
         os.system('chmod 774 {}'.format(cruise))
         os.system('mkdir {}.tar'.format(cruise))  # makes tar dir
+
         # moves cruise dir into tar dir
         output = os.system('mv {} {}.tar'.format(cruise, cruise))
         if output != 0:
                 logging.error('Could not move cruise directory')
                 raise RuntimeError
         # moves into tar dir
-        #os.chdir('{}/{}/{}.tar'.format(datadir_local, ship, cruise))
-        os.chdir('{}/{}.tar'.format(datadir_local, cruise))
+        os.chdir('{}/{}.tar'.format(datadir, cruise))
         # creates an md5deep of cruise dir
         os.system('/mnt/gdc/bin/md5deep -c -r -l -o f -t -z . \
 > ../{}.tar.md5deep'.format(cruise))
@@ -79,9 +76,10 @@ def create_md5deep(cruise):  # Ran with -m; Only if tar dir already exists
         print(datetime.now().strftime('%Y-%m-%dT%H:%M:%S: ') +
               'Creating md5deep for ' + cruise + '\n')
     ship_abbreviation = get_ship_abbreviation(cruise.upper())
+    datadir = path_identifier[ship_abbreviation]
     #ship = ships[ship_abbreviation]
     #os.chdir('{}/{}/{}.tar'.format(datadir_local, ship, cruise))
-    os.chdir('{}{}'.format(datadir_local, op_from_cruise[ship_abbreviation]))
+    os.chdir('{}'.format(datadir))
     os.system('chmod -R +rw {}/*'.format(cruise))
     os.system('chgrp -R gdc {}/*'.format(cruise))
     os.system('/mnt/gdc/bin/md5deep -c -r -l -o f -t -z {} \
