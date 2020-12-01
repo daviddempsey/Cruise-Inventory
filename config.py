@@ -8,7 +8,8 @@
 HLY_cruise_path = "/mnt/gdc/data/r2r/scratch/mil.uscg/"
 SIO_cruise_path = "/mnt/gdc/data/r2r/scratch/edu.ucsd.sio/"
 OC_cruise_path = "/mnt/gdc/data/r2r/scratch/edu.oregonstate/"
-codedir = "/mnt/gdc/code/scripts/"
+SKQ_cruise_path = "/mnt/gdc/data/r2r/scratch/edu.uaf"
+codedir = "/mnt/gdc/code/cruise_inventory/"
 operator_uaf = "edu.uaf"
 operator_sio = "edu.ucsd.sio/SR_2019"
 operator_hly = "mil.uscg/2019"
@@ -78,7 +79,8 @@ path_identifier = {
     'SP': SIO_cruise_path,
     'RR': SIO_cruise_path,
     'SR': SIO_cruise_path,
-    'OC': OC_cruise_path
+    'OC': OC_cruise_path,
+    'SKQ': SKQ_cruise_path
 }
 SI_identifier = {
     'HLY': "/data/sensor/serial_logger",
