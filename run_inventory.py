@@ -2,7 +2,6 @@
 import os
 import sys
 from config import *
-from scripts import *
 import logging
 
 # run_inventory.py
@@ -100,6 +99,18 @@ def run_inventory_from_list(list):
         print(datetime.now().strftime('%Y-%m-%dT%H:%M:%S: ') +
               "Script finished executing")
     logging.info("Script finished executing")
+
+
+def get_ship_abbreviation(cruise):  # returns 2-letter ship ID
+    ship_abbreviation = ''
+
+    for char in cruise: # iterates through cruise ID
+        if char.isdigit() is False: # appends letters
+            ship_abbreviation = ship_abbreviation + char
+        else: # ignores digits
+            break
+
+    return ship_abbreviation
 
 
 cruise = ''
