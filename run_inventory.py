@@ -3,6 +3,7 @@ import os
 import sys
 from config import *
 import logging
+from datetime import datetime
 
 # run_inventory.py
 # Created by David Dempsey
